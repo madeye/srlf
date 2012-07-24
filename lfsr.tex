@@ -103,7 +103,7 @@
 
 % *** CITATION PACKAGES ***
 %
-%\usepackage{cite}
+\usepackage{cite}
 % cite.sty was written by Donald Arseneau
 % V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
 % \cite{} output to follow that of IEEE. Loading the cite package will
@@ -137,12 +137,12 @@
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
   % driver is specified.
-  % \usepackage[dvips]{graphicx}
+  \usepackage[dvips]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
+  \graphicspath{{../eps/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
+  \DeclareGraphicsExtensions{.eps}
 \fi
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
@@ -556,9 +556,7 @@ The conclusion goes here.
 \section*{Acknowledgment}
 
 
-The authors would like to thank...
-
-
+The authors would like \cite{Gowers} to thank...
 
 
 
@@ -577,20 +575,20 @@ The authors would like to thank...
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
+\bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
+\bibliography{lfsr}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
+%\begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+  %0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
-\end{thebibliography}
+%\end{thebibliography}
 
 
 
