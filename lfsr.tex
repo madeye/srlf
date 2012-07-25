@@ -3,7 +3,7 @@
 %% 2012/07/24
 %% by Max Lv
 
-\documentclass[conference]{IEEEtran}
+\documentclass[conference]{acm_proc_article-sp}
 
 
 % *** CITATION PACKAGES ***
@@ -42,28 +42,25 @@
 
 
 \title{Local Feature Based Salient Region Detection}
-\author{\IEEEauthorblockN{Chao Lv}
-\IEEEauthorblockA{Parallel Processing Institute, Fudan University\\
-Email: max.c.lv@gmail.com}}
+\author{
+\alignauthor
+Chao Lv\\
+       \affaddr{Parallel Processing Institute\\Fudan University}\\
+       \email{lch@fudan.edu.cn}
+}
 \maketitle
 
 
 \begin{abstract}
 
-The abstract goes here.
+Local feature descriptors have become the most important part in image / video retrieval systems. But considering the great amount of local features, which could be thousands of local features in one HD photo, it's hard to compute them efficiently in a realistic system. In our research, we try to overcome this obstacle with a straightforward local feature reduction processing by using salient region detection. Furthermore, we also present a efficient method to detect multi salient regions. The whole algorithm is only based on the local features, which means almost no additional overhead involved in our algorithm. In our tests, we compare the LFSR (Local Feature based Salient Region) algorithm with a state-of-the-art algorithm. And the LFSR shows a thousands of times speedup in runtime with acceptable precision and recall loss. When integrated with the SURF descriptor, LFSR can provide a overall 1.6X speedup for the whole computation.
 
 \end{abstract}
 
 
-\IEEEpeerreviewmaketitle
-
-
 \section{Introduction}
 
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
-I wish you the best of success.
+Local feature 
 
 \hfill mds
  
@@ -171,7 +168,7 @@ The authors would like \cite{Gowers} to thank...
 
 
 % references section
-\bibliographystyle{IEEEtran}
+\bibliographystyle{abbrv}
 \bibliography{lfsr}
 
 
