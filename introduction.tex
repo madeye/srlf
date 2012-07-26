@@ -1,3 +1,8 @@
 \section{Introduction}
 
-text
+Our society has entered a data-centric era and a huge amount of data are transferred and processed on the Internet. Among them, multimedia data, such as image and video, has become one of the major data types being processed. As analyzed by CISCO Inc., video data occupies 50\% of network traffic in 2011 and will increase to 90\% in 2013~\cite{CISCO2011}.  According to a report~\cite{youtube2009}, as one of the most popular video sharing sites, more than 20-hour new videos are uploaded to \emph{YouTube} every minute. Moreover, as two most popular photo sharing sites, \emph{Facebook} and \emph{Flickr} host billions of user-uploaded images respectively.
+
+With the rapid increase of multimedia data, one of the most significant challenges is to understand and interpret such a huge amount of multimedia data. Currently, more and more retrieval applications are emerging to process these multimedia data, such as video recommendation~\cite{videorecommendation2007}, travel guidance systems~\cite{travelguidance2010} and content-based TV copy identification~\cite{tvidentify2003}. In these systems, a fundamental step is to extract enough feature information from images. 
+
+The image features can be divided into two main domains -- local features and global features. Local features are more precise and robust than global features and used widely in most image retrieval systems. But local feature computation suffer great overhead due to thousand of features existed in one image.   of which lead to great pressure on real-time processing. For example, SIFT~\cite{Lowe2004SIFT} and SURF~\cite{Bay2006SURF} are two most widely-used image retrieval algorithms~\cite{Mikolajczyk2005Evaluation}\cite{Bauer2007Evaluation}. When executed on general-purpose processors, they can only achieve a process speed of about three images per second.
+

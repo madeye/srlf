@@ -1,7 +1,7 @@
 # Makefile for LFSR paper.
 # Copyright (c) 2012 Max Lv
 TEX = latex
-DVI2PDF = dvipdfm
+DVI2PDF = dvipdf
 BIBTEX = bibtex
 doc = lfsr
 source = $(doc).tex
