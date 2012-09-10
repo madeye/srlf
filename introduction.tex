@@ -10,6 +10,8 @@ In general, there exist three major computation phases when processing local ima
 
 According to a previous research~\cite{Fang2011ispass}, the computation of feature describing are obviously greater than the feature detecting in the SURF algorithm, which is caused by the great amount of local features to be described in one image. Furthermore, in a realistic image retrieval system, the performance is dominated by the number of features in the database.
 
-So, it's possible and necessary to improve the performance of the whole system by the reduction of local features extracted from each image. In this paper, we present a algorithm to eliminate unimportant local features efficiently with no obvious precision loss for a image retrieval system.
+So, it's possible and necessary to improve the performance of the whole system by the reduction of local features extracted from each image. In this paper, we present a algorithm named LFSR (Local Feature based Salient Region) to eliminate unimportant local features efficiently with no obvious precision loss for a image retrieval system.
 
-The main idea to eliminate local features is to 
+The main idea of LFSR algorithm is extracting salient regions of images and only describing the local features in those regions. Without involving any other salient region algorithm, it is only based on the feature points extracted from the first phase of a typical local feature algorithm. This approach has two remarkable advantages: no additional computation for salient region detection; totally integrated with local feature algorithm to compute the salient region efficiently. The details of LFSR can be found in Section 2. 
+
+We have evaluated LFSR against a stat-of-the-art salient region algorithm. The evaluation results show that our approach has a much better performance with comparable precision and recall. Furthermore, we also show some results that a realistic image retrieval system can be beneficed from LFSR both in performance and accuracy. 
