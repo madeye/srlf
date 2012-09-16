@@ -2,6 +2,10 @@
 
 \subsection{Overview}
 
+The basic idea of LFSR is to compute salient regions for local feature reduction. Since we are not concerned with the precise region boundary in our task, it's possible to get approximate salient regions with much less computation. According to our observation, the distribution of features in one image is related to the salient region, which means most concerned local features located in one major region and other noises located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. Considering the distribution of local features in a image's X-axis and Y-axis, the local feature based salient region should has a width and height ratio computed from the standard deviation of feature's positions in both X-axis and Y-axis.
+
+In some images with more than one major objects, there may exist several local feature dense region, result in multiple LFSR in one image. To identify and compute these scenario efficiently, we involve a preprocessing to do a simple segmentation on all local features. 
+
 \subsection{Local Feature Based Segmentation}
 
 \subsection{Local Feature Based Salient Region}
