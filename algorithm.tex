@@ -6,6 +6,18 @@ The basic idea of LFSR is to compute salient regions for local feature reduction
 
 In some images with more than one major objects, there may exist several local feature dense region, result in multiple LFSR in one image. To identify and compute these scenario efficiently, we involve a preprocessing to do a simple segmentation on all local features. 
 
+As shown in Figure 1, there exist two major stages in LFSR algorithm. First, A segmentation should be performed on all local features to identify whether exist multiple salient region in that image. Second, in each image segmentation, LFSR computes that segmentation's salient region individually.
+
 \subsection{Local Feature Based Segmentation}
+
+One image may have multiple objects to construct a whole topic. When performing LFSR on these kind of images, we found that it's necessary to avoid computing the salient region across all local features in one run, which may lead to a significant precision loss.
+
+There have been a lot of research about image segmentation, e.g. . But in our research, we prefer to do a approximate segmentation only according to the geometric meaning of local features. LFSR solve this problem by performing scan operations in both X-axis and Y-axis of a image. In each scan, a cut-point may be found by following these two constraints:
+
+1. No local feature should be divided into multiple parts. Every local feature can be recognized as a dot with a radius that equals its scale and no cut-point should locate on that dot. This constraint is based on an observation that one local feature should contribute to only one object, not several objects.
+
+2. The cut-point should be located as near as possible to the center of image. Each scan is performed from the center of a image, in order to find the nearest cut-point for that image. This constraint is also based on an observation that major objects in one real photo always locate in the center, not far away from it.
+
+The detail steps are shown in Figure 2. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, the scan stopped and that cut-point is taken for the image segmentation. If a scan exceeds a threshold distance, for example 1/4 of image with / height, to the image center, the scan should stop and announce that there exists no valid segmentation on that dimension. 
 
 \subsection{Local Feature Based Salient Region}
