@@ -18,7 +18,7 @@ There have been a lot of research about image segmentation, e.g. . But in our re
 
 2. The cut-point should be located as near as possible to the center of image. Each scan is performed from the center of a image, in order to find the nearest cut-point for that image. This constraint is also based on an observation that major objects in one real photo always locate in the center, not far away from it.
 
-The detailed steps are shown in Figure 2. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance, for example 1/4 of the image with / height, to the image center, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both X-axis and Y-axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations with almost no image with more than two major objects.
+The detailed steps are shown in Figure 2. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example 1/4 of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both X-axis and Y-axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations with almost no image with more than two major objects.
 
 \subsection{Local Feature Based Salient Region Detection}
 
@@ -26,8 +26,16 @@ As discussed in Section 3.1, a precise salient region detection is not necessary
 
 Local feature can be represented as points in a image. After careful observations on the distribution of these points, we find that local features of one salient region locate near to each other while noises locating far away from them. To simplify this problem, LFSR regards the geometric center of feature points as the center of the salient region.
 
-{\begin{equation}
+{\begin{equation} \label{eq:center}
 C(x, y) = \sum_{i}^{N}\left({P}_{i}(x, y) \right)
 \end{equation}}
 
-Where $C(x, y)$ means the geometric center of each local feature point $P(x, y)$
+Where $C(x, y)$ means the geometric center of every local feature point $P(x, y)$.
+
+After locating the center, LFSR build the final salient region by growing the region as rectangle with a particular length-width ratio. And the ratio can also be computed directly by the distribution of local features like this:
+
+{\begin{equation} \label{eq:ratio}
+Ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
+\end{equation}}
+
+Where $s_{i}$ and $y_{i}$ is each feature's position, while $x_{c}$ and $y_{c}$ is the center position computed in Equation~\ref{eq:center}.
