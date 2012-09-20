@@ -21,9 +21,13 @@ One image may have multiple objects to construct a whole topic. When performing 
 
 There have been a lot of research about image segmentation, e.g. . But in our research, we prefer to do a approximate segmentation only relying on the geometric meaning of local features. LFSR solve this problem by performing scan operations in both X-axis and Y-axis of a image. In each scan, a cut-point may be found by following these two constraints:
 
-1. No local feature should be divided into multiple parts. Every local feature can be recognized as a dot with a radius that equals its scale and no cut-point should locate on that dot. This constraint is based on an observation that one local feature should contribute to only one object, not several objects.
+\begin{enumerate}
 
-2. The cut-point should be located as near as possible to the center of image. Each scan is performed from the center of a image, in order to find the nearest cut-point for that image. This constraint is also based on an observation that major objects in one real photo always locate in the center, not far away from it.
+  \item No local feature should be divided into multiple parts. Every local feature can be recognized as a dot with a radius that equals its scale and no cut-point should locate on that dot. This constraint is based on an observation that one local feature should contribute to only one object, not several objects.
+
+  \item The cut-point should be located as near as possible to the center of image. Each scan is performed from the center of a image, in order to find the nearest cut-point for that image. This constraint is also based on an observation that major objects in one real photo always locate in the center, not far away from it.
+
+\end{enumerate}
 
 The detailed steps are shown in Figure 2. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example 1/4 of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both X-axis and Y-axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations with almost no image with more than two major objects.
 
