@@ -1,4 +1,4 @@
-\section{Algorithm}
+\section{Local Feature Based Salient Region}
 
 \begin{figure*}[!t] 
 \centering
@@ -7,7 +7,7 @@
 \caption{An overview of Local Feature based Salient Region algorithm}
 \end{figure*}
 
-\subsection{Overview}
+\subsection{Algorithm Overview}
 
 The basic idea of LFSR is to compute salient regions for local feature reduction. Since we are not concerned with the precise region boundary in our task, it's possible to get approximate salient regions with much less computation. According to our observation, the distribution of features in one image is related to the salient region, which means most concerned local features located in one major region and other noises located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. Considering the distribution of local features in a image's X-axis and Y-axis, the local feature based salient region should has a width and height ratio computed from the standard deviation of feature's positions in both X-axis and Y-axis.
 
@@ -31,7 +31,7 @@ There have been a lot of research about image segmentation, e.g. . But in our re
 
 The detailed steps are shown in Figure 2. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example 1/4 of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both X-axis and Y-axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations with almost no image with more than two major objects.
 
-\subsection{Local Feature Based Salient Region Detection}
+\subsection{Local Feature Based Detection}
 
 As discussed in Section 3.1, a precise salient region detection is not necessary for local feature reduction. Thus, LFSR employ geometric meaning of local features to compute a approximate salient region.
 
