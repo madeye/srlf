@@ -1,54 +1,89 @@
-
 %% lfsr.tex
 %% 2012/07/24
 %% by Max Lv
 
-\documentclass[conference]{acm_proc_article-sp}
+\documentclass[10pt,twocolumn,letterpaper]{article}
 
+%% CVPR
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% \cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ifcvprfinal\pagestyle{empty}\fi
 
 %% CITATION PACKAGES
 \usepackage{cite}
-\usepackage{hyperref}
-
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
 
 %% GRAPHICS RELATED PACKAGES
 \usepackage{graphicx}
 
-
 %% ALIGNMENT PACKAGES
 \usepackage{array}
 
-
 %% SUBFIGURE PACKAGES
 \usepackage[tight,footnotesize]{subfigure}
-
 
 % PDF, URL AND HYPERLINK PACKAGES
 \usepackage{url}
 
 % FIX FOR SPANNING
 \usepackage{stfloats}
-%\usepackage{fixltx2e}
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
 
-%% DOCUMENT BODY
+%% DOCUMENT
 \begin{document}
 
+%% TITLE
 \title{Local Feature Based Salient Region Detection}
+
+%% AUTHOR
 \author{
-\alignauthor
-Chao Lv\\
-       \affaddr{Parallel Processing Institute\\Fudan University}\\
-       \email{lch@fudan.edu.cn}
+	\alignauthor
+	Chao Lv\\
+    Parallel Processing Institute\\
+    Fudan University\\
+    {\tt\small lch@fudan.edu.cn}
 }
+
 \maketitle
+
+%% DOCUMENT BODY
+
+\begin{figure*}[!t]
+	\centering
+	\subfigure[Salient region has the densest local features.]{
+		\includegraphics[width=2.5in]{images/fig-observation1.eps}
+		\label{fig:observation_1}
+	}
+	\hfil
+	\subfigure[Several salient regions in one image.]{
+		\includegraphics[width=2.5in]{images/fig-observation2.eps}
+		\label{fig:observation_2}
+	}
+	\caption{Example images with local feature based salient regions}
+	\label{fig:observations}
+\end{figure*}
 
 \input{abstract}
 
 \input{introduction}
+
+\input{observation}
 
 \input{algorithm}
 
@@ -59,9 +94,10 @@ Chao Lv\\
 \input{acknowledgement}
 
 %% REFERENCES
-\bibliographystyle{abbrv}
+{\small
+\bibliographystyle{ieee}
 \bibliography{lfsr}
-
+}
 
 \end{document}
 

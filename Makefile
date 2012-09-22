@@ -30,7 +30,7 @@ $(pdf): $(dvi)
 
 clean:
 	rm -f *.aux *.bbl *.log *.blg *.toc *.out *.lot tex4ht.ps *.4*
-	rm -f *.xref* *.lg *.idv *.out *.otc *.tmp tmp.*
+	rm -f *.xref* *.lg *.idv *.out *.otc *.tmp tmp.* *.brf
 	rm -f $(dvi) $(doc).ps $(blb)
 
 realclean: clean
