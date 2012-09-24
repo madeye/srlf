@@ -1,15 +1,16 @@
-\section{Observations}
+\section{Observation}
+\label{sec:observation}
 
 We propose LFSR algorithm based on three observations:
 
-\begin{itemize}
+\begin{description}
 	
-	\item {\bf Observation 1:} Local feature in the salient region are close to each other, while noisy or unimportant features are far away from them. As shown in Figure \ref{fig:observation_1}, local features in the salient region (green box) gather together and many obvious unimportant local features locate far from that box.
+	\item[Observation 1] \desclabel{itm:observation_1} Local feature in the salient region are close to each other, while noisy or unimportant features are far away from them. As shown in Figure \ref{fig:observation_1}, local features in the salient region (green box) gather together and many obvious unimportant local features locate far from that box.
 
-	\item {\bf Observation 2:} The region with most local features is the preferred salient region. Also from Figure \ref{fig:observation_1}, the preferred green box has much more local features than in other two yellow boxes.
+	\item[Observation 2] \desclabel{itm:observation_2} The region with most local features is the preferred salient region. Also from Figure \ref{fig:observation_1}, the preferred green box has much more local features than other two yellow boxes.
 
-	\item {\bf Observation 3:} There may exist several salient regions in one image. For example, the photo in Figure \ref{fig:observation_2} contains two objects, a person and a stop sign, which shape two salient region following the distribution of local features on them.
+	\item[Observation 3] \desclabel{itm:observation_3} There may exist several salient regions in one image, which are observed as clusters of local features. For example, the photo in Figure \ref{fig:observation_2} contains two objects, a person and a stop sign, which shape two salient regions following the clusters of local features.
 
-\end{itemize}
+\end{description}
 
-Observation 1 indicates a method to rewrite our a
+Observation~\ref{itm:observation_1} and \ref{itm:observation_2} indicate a possibility that we can compute the salient region directly from the distribution of local features. In addition, observation~\ref{itm:observation_3} means it's necessary to deal with multiple salient regions if there exist clusters of local features.

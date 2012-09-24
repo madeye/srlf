@@ -38,6 +38,12 @@
 % FIX FOR SPANNING
 \usepackage{stfloats}
 
+% description list
+\newcounter{desccount}
+\newcommand{\desclabel}[1]{%
+  \refstepcounter{desccount}\label{#1}
+}
+
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
