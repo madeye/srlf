@@ -6,7 +6,9 @@ In this section, we first present some precision comparisons for LFSR. To show t
 \subsection{Experimental Comparison}
 \label{sec:evaluation_comparison}
 
-As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm for local feature reduction, and salient region detection is just suitable for that task. To achieve a good performance, we present LFSR instead of directly using any existed salient region algorithm. Although LFSR is only a approximate algorithm, we are still interested in evaluating its precision against others.
+As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm for local feature reduction, and salient region detection is just suitable for that task. To achieve a good performance, we present LFSR instead of directly using any existed salient region algorithm. Although LFSR is only a approximate algorithm, we are still interested in evaluating its precision against others. Here we compare LFSR with a previous research named FTSR (Frequency-Tuned Salient Region) by Achanta et al.~\ref{achanta2009frequency}. FTSR is a state-of-the-art salient region algorithm with a C++ implementation which is easy to compare the performance.
+
+Since we only focus on local features, our evaluation differs from other salient region researches: the precision and recall are given according to the results of local feature reduction, not the precise salient region boundary. The evaluated dataset is also provided by Achanta et at.~\ref{achanta2009frequency}, which is a subset of the public database by Liu et at.~\ref{liu2011learning}.
 
 \subsection{Integration with SURF Descriptor}
 \label{sec:observaion_integration}
