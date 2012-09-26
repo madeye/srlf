@@ -1,29 +1,29 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In this section, we first present some precision comparisons for LFSR. To show the performance improvement of local feature descriptor with LFSR, an evaluation is also performed on a LFSR enabled SURF descriptor.
-
-\subsection{Experimental Comparison}
-\label{sec:evaluation_comparison}
-
-As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm for local feature reduction, and salient region detection is just suitable for that task. To achieve a good performance, we present LFSR instead of directly using any existed salient region algorithm. Although LFSR is only a approximate algorithm, we are still interested in evaluating its precision against others. Here we compare LFSR with a previous research named FTSR (Frequency-Tuned Salient Region) by Achanta et al.~\cite{achanta2009frequency}. FTSR is a state-of-the-art salient region algorithm with a C++ implementation which is easy to compare the performance.
-
-Since we only focus on local features, our evaluation should differ from other related researches: the precision and recall are given according to the results of local feature reduction, not the precise salient region boundary. The evaluated dataset is also provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public database by Liu et at.~\cite{liu2011learning}. As input, we use a SURF descriptor~\cite{evans2010opensurf} to get the local features for all tested images first. 
-
-\begin{table}
+\begin{table*}[!t]
 \label{tab:comparison}
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
- & Precision & Recall & F score & Reduction Efficiency & Times(s)\\
+ & Precision & Recall & F score & Reduction Efficiency & Process Time(s) \\
 \hline\hline
-FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828\\
-LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2\\
+FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828 \\
+LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
 \hline
 \end{tabular}
 \end{center}
 \caption{Comparison between FTSR and LFSR.}
-\end{table}
+\end{table*}
+
+In this section, we first present some precision comparisons. Then, to show the performance improvement of local feature descriptor by using LFSR, an evaluation is also performed on a LFSR enabled SURF descriptor.
+
+\subsection{Experimental Comparison}
+\label{sec:evaluation_comparison}
+
+As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm for local feature reduction, and salient region detection is just suitable for that task. To achieve a good performance, we present LFSR instead of directly using any existed salient region algorithm. Although LFSR is only a approximate algorithm, we are still interested in evaluating its precision against others. Here we compare LFSR with a previous research named FTSR (Frequency-Tuned Salient Region) by Achanta et al.~\cite{achanta2009frequency}. FTSR is a state-of-the-art salient region algorithm with a C++ implementation which is easy to compare the performance. To work with local feature descriptor, FTSR here should perform segmentation on its saliency map before doing feature reduction. It means in our evaluation the process time of FTSR includes not only the saliency map generation but also the segmentation processing.
+
+Since we only focus on local features, our evaluation should differ from other related researches: the precision and recall are given according to the results of local feature reduction, not the precise salient region boundary. The evaluated dataset is also provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public database by Liu et at.~\cite{liu2011learning}. As input, we generate local features for all testing SURF descriptor~\cite{evans2010opensurf}. 
 
 As shown in Table~\ref{tab:comparison}, LFSR gets a lower precision and a same recall, with a not bad F score. Considering the application scenario of LFSR, the precision here is not much important, since the final match result is only based on the distance between feature vectors. Furthermore, we also presents the reduction efficiency of each algorithm in column 5, which refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features.
 
@@ -32,4 +32,6 @@ To evaluate the performance of these two algorithms, we implement LFSR and FTSR 
 \subsection{SURF Descriptor Integration}
 \label{sec:observaion_integration}
 
-LFSR is designed to improve the performance of we choose to integrate 
+LFSR is designed to improve the performance of local feature descriptor. To evaluate whether LFSR satisfies this design purpose, we choose to integrate our algorithm into the OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region module is carefully added between the detection stage and the description stage. It means LFSR can reuse the computation results directly from the detection stage. Then after the reduction of LFSR, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
+
+The evaluation is performed on a dataset\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. The LFSR enabled SURF implementation achieves a speedup of 1.6X in description stage when compared to the original implementation.
