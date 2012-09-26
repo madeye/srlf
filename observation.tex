@@ -1,7 +1,16 @@
 \section{Observation}
 \label{sec:observation}
 
-We propose LFSR algorithm based on three observations:
+\begin{figure}
+	\centering
+	\includegraphics[width=3.0in]{images/fig-workflow.eps}
+	\caption{Process flow of a typical local feature descriptor.}
+	\label{fig:workflow}
+\end{figure}
+
+A local feature descriptor detects local features which are invariant to image scaling and rotation. Some of them are even invariant to changes in illumination and 3D camera viewpoint. Typically, it consists of detection stage and description stage. The detailed process flow is shown in Figure~\ref{fig:workflow}. In the detection stage, scale invariant features are detected. Then, in the description stage, each point is assigned one or more orientations based on local image gradient directions, which is the key step in achieving invariance to rotation. At the end of the description stage, each detected feature should be computed to a high dimension vector. 
+
+As shown in Figure~\ref{fig:observations}, feature points can be represented as points, where the radius of each point equals its scale. After studying carefully on the distribution of these points, we get three major observations:
 
 \begin{description}
 	
