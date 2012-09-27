@@ -1,21 +1,6 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-\begin{table*}[!t]
-\label{tab:comparison}
-\begin{center}
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
- & Precision & Recall & F score & Reduction Efficiency & Process Time(s) \\
-\hline\hline
-FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828 \\
-LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Comparison between FTSR and LFSR.}
-\end{table*}
-
 In this section, we first present some precision comparisons. Then, to show the performance improvement of local feature descriptor by using LFSR, an evaluation is also performed on a LFSR enabled SURF descriptor.
 
 \subsection{Experimental Comparison}
@@ -30,8 +15,25 @@ As shown in Table~\ref{tab:comparison}, LFSR gets a lower precision and a same r
 To evaluate the performance of these two algorithms, we implement LFSR and FTSR both in C++ and run them on a Intel Quad Core 2.4Ghz CPU. The result shows that the well optimized FTSR costs 2828 seconds to compute all 1000 images, while the similar implementation of LFSR only costs 3.2 seconds. The performance result of LFSR is very impressive but not surprising, because the computation of LFSR is really simple and straightforward.
 
 \subsection{SURF Descriptor Integration}
-\label{sec:observaion_integration}
+\label{sec:evaluation_integration}
 
-LFSR is designed to improve the performance of local feature descriptor. To evaluate whether LFSR satisfies this design purpose, we choose to integrate our algorithm into the OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region module is carefully added between the detection stage and the description stage. It means LFSR can reuse the computation results directly from the detection stage. Then after the reduction of LFSR, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
+\begin{table}
+\label{tab:integration}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Time (s) & SURF & Building & Query \\
+\hline\hline
+Base & 0.18 & 0.14 & 0.33 \\
+LFSR & 0.52 & 0.59 & 0.12 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Average time to compute each image. Building refers to VOC-Tree building time. Query refers to VOC-Tree query time plus RANSAC time.}
+\end{table}
 
-The evaluation is performed on a dataset\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. The LFSR enabled SURF implementation achieves a speedup of 1.6X in description stage when compared to the original implementation.
+LFSR is designed to improve the performance of local feature descriptor. To evaluate whether LFSR satisfies this design purpose, we integrate our algorithm into the OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region detection is carefully added between the detection stage and the description stage. It means LFSR can reuse the computation results directly from the detection stage. After the reduction of LFSR, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
+
+Furthermore, we also implement a whole image retrieval system for evaluation. The system first builds a VOC-Tree~\cite{VOCTree2006} by using SURF feature vectors extracted from image datasets. Then, each incoming query image is transfered into SURF vectors too and compared in that VOC-Tree. At last, the found top similar images would be reordered by using RANSAC~\cite{ransac1981}. To involve LFSR, we just replace the original SURF with a LFSR enabled version.
+
+The evaluation input is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. Compared to the original SURF algorithm, LFSR help to improve the performance by 1.6X. And by reducing local features, the whole image retrieval system gains a almost 2X speedup in both building and query phase.

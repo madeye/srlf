@@ -41,6 +41,21 @@ The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation 
 \caption{Segmentation with scanning all local features on the x axis. The line of cut point should not go across any feature point and locate as near the image center as possible.}
 \end{figure}
 
+\begin{table*}[!t]
+\label{tab:comparison}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+ & Precision & Recall & F score & Reduction Efficiency & Process Time(s) \\
+\hline\hline
+FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828 \\
+LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Comparison between FTSR and LFSR.}
+\end{table*}
+
 \subsection{Local Feature Based Detection}
 \label{sec:algorithm_detection}
 
