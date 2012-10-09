@@ -8,14 +8,14 @@ The basic idea of LFSR is to compute salient regions for local feature reduction
 
 In some images with more than one major objects, there may exist several local feature dense region, result in multiple LFSR in one image. To identify and compute these scenario efficiently, we involve a preprocessing to do a simple segmentation on all local features. 
 
-As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algorithm. First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
-
-\begin{figure}
+\begin{figure}[!t]
 \centering
-\label{fig:overview}
 \includegraphics[width=3.0in]{images/fig-overview.eps}
 \caption{An overview of Local Feature based Salient Region algorithm}
+\label{fig:overview}
 \end{figure}
+
+As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algorithm. First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
 
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
@@ -32,13 +32,13 @@ There have been a lot of research about image segmentation, but in our research,
 
 \end{enumerate}
 
-The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example $1/4$ of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both the x axis and the y axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations with almost no image with more than two major objects.
+The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example $1/4$ of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both the x axis and the y axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations, for almost no image has more than two major objects.
 
-\begin{figure}
+\begin{figure}[!t]
 \centering
-\label{fig:segmentation}
 \includegraphics[width=2.5in]{images/fig-segmentation.eps}
 \caption{Segmentation by scanning all local features on the x axis. The line of cut point should not go across any feature point and locate as near the image center as possible.}
+\label{fig:segmentation}
 \end{figure}
 
 \begin{table*}[!t]
