@@ -45,21 +45,6 @@ There have been a lot of research about image segmentation, but in our research,
 
 The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example $1/4$ of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both the x axis and the y axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations, for almost no image has more than two major objects.
 
-\begin{table*}[!t]
-\begin{center}
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
- & Precision & Recall & F score & Reduction Efficiency & Process Time(s) \\
-\hline\hline
-FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828 \\
-LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Comparison between FTSR and LFSR.}
-\label{tab:comparison}
-\end{table*}
-
 \subsection{Local Feature Based Detection}
 \label{sec:algorithm_detection}
 
