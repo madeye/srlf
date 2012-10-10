@@ -1,3 +1,10 @@
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=5.0in]{images/fig-overview.eps}
+\caption{An overview of Local Feature based Salient Region algorithm}
+\label{fig:overview}
+\end{figure*}
+
 \section{Algorithm}
 \label{sec:algorithm}
 
@@ -8,14 +15,11 @@ The basic idea of LFSR is to compute salient regions for local feature reduction
 
 In some images with more than one major objects, there may exist several local feature dense region, result in multiple LFSR in one image. To identify and compute these scenario efficiently, we involve a preprocessing to do a simple segmentation on all local features. 
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=3.0in]{images/fig-overview.eps}
-\caption{An overview of Local Feature based Salient Region algorithm}
-\label{fig:overview}
-\end{figure}
-
-As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algorithm. First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
+As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algorithm. 
+\begin{inparaenum}[\itshape a\upshape)]
+\item First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. 
+\item Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
+\end{inparaenum}
 
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
@@ -42,7 +46,6 @@ The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation 
 \end{figure}
 
 \begin{table*}[!t]
-\label{tab:comparison}
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
@@ -54,6 +57,7 @@ LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
 \end{tabular}
 \end{center}
 \caption{Comparison between FTSR and LFSR.}
+\label{tab:comparison}
 \end{table*}
 
 \subsection{Local Feature Based Detection}
@@ -77,6 +81,6 @@ Ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\l
 
 Where $s_{i}$ and $y_{i}$ is every feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, LFSR grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features.
 
-Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, it is possible to get several candidate regions. According to the observation \ref{itm:observation_3}, LFSR eliminates regions with fewer features than a threshold $\theta$. In our evaluation, we take $1/4$ of the feature number of the candidate region with most local features as the threshold $\theta$.
+Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, the processing result will provide several candidate regions. According to the observation \ref{itm:observation_3}, LFSR choose to eliminate regions with features fewer than a threshold $\theta$. In our evaluation, we pick up the candidate region with most local features and take $1/4$ of its local feature quantity as the threshold $\theta$.
 
 Overall, LFSR detects the salient region with one mean value and two standard deviation computations, also with a few additional loops to expand the detected region. Since these computations are only performed on local features, the cost should be very slight when integrated with a local feature descriptor. Furthermore, we find that this simple approach also achieves an obvious performance advantage when compared to other precise salient region algorithms.

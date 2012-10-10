@@ -18,7 +18,6 @@ To evaluate the performance of these two algorithms, we implement LFSR and FTSR 
 \label{sec:evaluation_integration}
 
 \begin{table}
-\label{tab:integration}
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -29,7 +28,8 @@ LFSR & 0.52 & 0.03 & 0.12 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Average time to compute each image. Building refers to VOC-Tree building time. Query refers to VOC-Tree query time plus RANSAC time.}
+\caption{Average time to compute each image. Building refers to VOC-Tree building time. Query includes VOC-Tree query time and RANSAC time.}
+\label{tab:integration}
 \end{table}
 
 LFSR is designed to improve the performance of local feature descriptor. To evaluate whether LFSR satisfies this design purpose, we integrate our algorithm into the OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region detection is carefully added between the detection stage and the description stage. It means LFSR can reuse the computation results directly from the detection stage. After the reduction of LFSR, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
