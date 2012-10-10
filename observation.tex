@@ -10,7 +10,11 @@
 
 \subsection{Motivation}
 
-A local feature descriptor detects local features which are invariant to image scaling and rotation. Some of them are even invariant to changes in illumination and 3D camera viewpoint. Typically, it consists of detection stage and description stage. The detailed process flow is shown in Figure~\ref{fig:workflow}. In the detection stage, scale invariant features are detected. Then, in the description stage, each point is assigned one or more orientations based on local image gradient directions, which is the key step in achieving invariance to rotation. At the end of the description stage, each detected feature should be computed to a high dimension vector. 
+A local feature descriptor detects local features which are invariant to image scaling and rotation. Some of them are even invariant to changes in illumination and 3D camera viewpoint. Typically, it consists of detection stage and description stage. The detailed process flow is shown in Figure~\ref{fig:workflow}. In the detection stage, scale invariant features are detected. Then, in the description stage, each point is assigned one or more orientations based on local image gradient directions, which is the key step in achieving invariance to rotation. At the end of the description stage, each detected feature should be computed to a high dimension vector.
+
+There exist two major problems for local feature descriptors. First, computing high dimension feature vectors is relatively slow. Second, many of the detected local features are useless or unimportant. Salient region~\cite{huang2009image,liang2010salient} can be used here to solve the two problems by removing local features outside important area. Since detecting salient regions is also a somehow time-consuming computation, when used together with local feature descriptor, the final computation performance can not be improved as expected.
+
+To overcome these performance issues, we choose to involve a approximate approach for salient region detection. And this approach is based on the following observations.
 
 \subsection{Observation}
 

@@ -24,6 +24,13 @@ As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algo
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{images/fig-segmentation.eps}
+\caption{Segmentation by scanning all local features on the x axis. The line of cut point should not go across any feature point and locate as near the image center as possible.}
+\label{fig:segmentation}
+\end{figure}
+
 One image may have multiple objects to construct a whole topic. When performing LFSR on this kind of images, we found that it's necessary to avoid computing the salient region across all local features in one run, which may lead to a significant precision loss.
 
 There have been a lot of research about image segmentation, but in our research, we prefer to do a approximate segmentation only relying on the geometric meaning of local features. LFSR solve this problem by performing scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
@@ -37,13 +44,6 @@ There have been a lot of research about image segmentation, but in our research,
 \end{enumerate}
 
 The detailed steps are shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example $1/4$ of the image with, the scan should stop and announce that there exists no valid segmentation on that dimension. After scanning on both the x axis and the y axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our observation, one run of segmentation is enough in most situations, for almost no image has more than two major objects.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=2.5in]{images/fig-segmentation.eps}
-\caption{Segmentation by scanning all local features on the x axis. The line of cut point should not go across any feature point and locate as near the image center as possible.}
-\label{fig:segmentation}
-\end{figure}
 
 \begin{table*}[!t]
 \begin{center}
