@@ -38,18 +38,20 @@ Furthermore, we also implement a whole image retrieval system for evaluation. Th
 
 The evaluation input is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. Compared to the original SURF algorithm, LFSR help to improve the performance by 1.6X. And by reducing local features, the whole image retrieval system gains a almost 2X speedup in both building and query phase.
 
-
 \begin{table}
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Time (s) & SURF & Building & Query \\
+Algorithm & Detecting & Building & Query \\
 \hline\hline
-Base & 0.18 & 0.06 & 0.33 \\
-LFSR & 0.52 & 0.03 & 0.12 \\
+SURF & 0.15 & 0.06 & 0.54 \\
+SURF-LFSR & 0.09 & 0.03 & 0.34 \\
+\hline\hline
+SIFT & 0.54 & 0.33 & 1.65 \\
+SIFT-LFSR & 0.33 & 0.12 & 0.77 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Average time to compute each image. Building refers to VOC-Tree building time. Query includes VOC-Tree query time and RANSAC time.}
+\caption{Average time for computing each image. Detecting refers to local feature descriptor time. Building refers to VOC-Tree building time. Query includes VOC-Tree query time and RANSAC time.}
 \label{tab:integration}
 \end{table}
