@@ -4,11 +4,11 @@
 \subsection{Overview}
 \label{sec:algorithm_overview}
 
-The basic idea of LFSR is to compute salient regions for local feature reduction. Since we are not concerned with the precise region boundary in our task, it's possible to get approximate salient regions with much less computation. According to our observation, the distribution of features in one image is related to the salient region, which means most concerned local features located in one major region and other noises located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. Considering the distribution of local features in an image's x axis and y axis, the local feature based salient region should has a width and height ratio computed from the standard deviation of feature's positions on both the x axis and the y axis.
+The basic idea of LFSR is to compute salient regions for local feature reduction. Since we are not concerned with the precise region boundary in our task, it's possible to get approximate salient regions with much less computation. According to our observation, the salient region can be picked, which means most concerned local features located in one major region and other noises located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. 
 
-In some images with more than one major objects, there may exist several local feature clusters, result in multiple LFSR in one image. To identify these scenario efficiently, we involve a preprocessing to do a simple segmentation on all local features. 
+In some images with more than one major objects, there may exist several local feature clusters, result in multiple LFSR in one image. To identify these scenario efficiently, we also involve a preprocessing to do a simple segmentation on all local features. 
 
-As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algorithm. 
+As shown in Figure \ref{fig:overview}, LFSR locates just between detection stage and description stage of a typical local feature algorithm, where the input of LFSR is detected feature points and output is feature points for computing feature vectors. There exist two major stages in LFSR algorithm.
 \begin{inparaenum}[\itshape a\upshape)]
 \item First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. 
 \item Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
