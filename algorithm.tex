@@ -17,9 +17,7 @@ As shown in Figure \ref{fig:overview}, there exist two major stages in LFSR algo
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
 
-One image may have multiple objects to construct a whole topic. When performing LFSR on this kind of images, we found that it's necessary to avoid computing the salient region across all local features in one run, which may lead to a significant precision loss.
-
-There have been a lot of research about image segmentation, but in our research, we prefer to do a approximate segmentation only relying on the geometric meaning of local features. LFSR solve this problem by performing scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
+According to Observation~\ref{itm:observation_3}, one image may have several salient regions which constructed as multiple clusters of local features. LFSR solve this problem by using a very simple image segmentation to divide the image into several blocks based on the distribution of local features. This segmentation performs scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
 
 \begin{itemize}
 
@@ -49,7 +47,7 @@ According to Observation~\ref{itm:observation_1}, the local features of one sali
 C(x, y) = \sum_{i}^{N}\left({F}_{i}(x, y) \right)
 \end{equation}}
 
-Where $C(x, y)$ means the geometric center of every local feature $F(x, y)$.
+Where $C(x, y)$ means the geometric center of each local feature $F(x, y)$ in that image block.
 
 After locating the center, LFSR build the final salient region by expending the region as rectangle with a particular length-width ratio. And the ratio can also be computed directly from the distribution of features:
 
@@ -57,7 +55,7 @@ After locating the center, LFSR build the final salient region by expending the 
 Ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
 \end{equation}}
 
-Where $x_{i}$ and $y_{i}$ is every feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, LFSR grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features.
+Where $x_{i}$ and $y_{i}$ is a feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, LFSR grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features.
 
 Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, the processing result will provide several candidate regions. According to the observation \ref{itm:observation_3}, LFSR choose to eliminate regions with features fewer than a threshold $\theta$. In our evaluation, we pick up the candidate region with most local features and take $1/4$ of its local feature quantity as the threshold $\theta$.
 
