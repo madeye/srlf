@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In this section, we first present some precision comparisons. Then, to show the performance improvement of local feature descriptor by using LFSR, an evaluation is also performed on a LFSR enabled SURF descriptor.
+In this section, we first present some precision comparisons. Then, to show the performance improvement of local feature descriptor by using LFSR, an evaluation is also performed on LFSR enabled SIFT and SURF descriptors.
 
 \subsection{Experimental Comparison}
 \label{sec:evaluation_comparison}
@@ -25,7 +25,7 @@ As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm 
 
 Since we only focus on local features, our evaluation should differ from other related researches: the precision and recall are given according to the results of local feature reduction, not the precise salient region boundary. The evaluated dataset is also provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public database by Liu et at.~\cite{liu2011learning}. As input, we generate local features for all testing SURF descriptor~\cite{evans2010opensurf}. 
 
-As shown in the column 2, 3 and 4 of Table~\ref{tab:comparison}, LFSR gets a lower precision and a same recall. Considering the application scenario of LFSR, the precision here is not such important, for the final match result is only based on the distance between feature vectors. Furthermore, we also presents the reduction efficiency of each algorithm in column 5, which refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features.
+As shown in the column 2, 3 and 4 of Table~\ref{tab:comparison}, LFSR gets a lower precision and a same recall. Considering the application scenario of LFSR, the precision here is not such important, for the final match result is only based on the distance between feature vectors. Furthermore, we also presents the reduction efficiency of each algorithm in the column 5, which refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features.
 
 To evaluate the performance of these two algorithms, we implement LFSR and FTSR both in C++ and run them on a Intel Quad Core 2.4Ghz CPU. The result in the column 6 of Table~\ref{tab:comparison} shows that the well optimized FTSR costs 2828 seconds to compute all 1000 images, while the similar implementation of LFSR only costs 3.2 seconds. The performance result of LFSR is very impressive but not surprising, because the computation of LFSR is really simple and straightforward.
 
