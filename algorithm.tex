@@ -1,45 +1,76 @@
-\section{Algorithm}
+\section{{\sys} Design}
 \label{sec:algorithm}
 
 \subsection{Overview}
 \label{sec:algorithm_overview}
 
-The basic idea of LFSR is to compute salient regions for local feature reduction. Since we are not concerned with the precise region boundary in our task, it's possible to get approximate salient regions with much less computation. As discussed in Section~\ref{sec:observation}, most concerned local features located in one major region and others located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=5.0in]{images/fig-overview.eps}
+\caption{An overview of Local Feature based Salient Region algorithm}
+\label{fig:overview}
+\end{figure*}
 
-In some images with more than one major objects, there may exist several local feature clusters, result in multiple LFSR in one image. To identify these scenario efficiently, we also involve a preprocessing to do a simple segmentation on all local features. 
+The basic motivation of {\sys} is to design a salient region detection algorithm, which can be used to optimize the obstacles of local feature-based algorithms and is easy to combined with those local feature based algorithms. Based on the observations in Section~\ref{subsec:observation}, we design and implement a local feature based salient region detection algorithm~({\sys}), which is efficient and easy to be combined with {\lfea}s.    
 
-As shown in Figure \ref{fig:overview}, LFSR works as a filter just between detection stage and description stage of a typical local feature algorithm, where the input of LFSR is detected feature points and output is concerned feature points for computing feature vectors. There exist two major stages in LFSR algorithm.
+
+%most concerned local features located in one major region and others located apart from them with a much larger distance to the salient region center. Thus, a approximate salient region can be regarded as a region expanded from the geometry center of local features. 
+
+%In some images with more than one major objects, there may exist several local feature clusters, result in multiple LFSR in one image. To identify these scenario efficiently, we also involve a preprocessing to do a simple segmentation on all local features. 
+
+As shown in Figure \ref{fig:overview}, LFSR works as a filter just between detection stage and description stage of a typical {\lfea}, where the input of LFSR is detected feature points and output is concerned feature points for computing feature vectors. There exist two major stages in LFSR algorithm.
 \begin{inparaenum}[\itshape a\upshape)]
-\item First, a segmentation is performed on all local features to identify whether exist multiple salient region in that image. 
-\item Second, for each image segmentation, LFSR computes that segmentation's salient region individually.
+\item First, a segmentation step is performed on all local features to identify and partition multiple salient region in an image. 
+\item Second, for each image segmentation, LFSR computes that segmentation's salient region individually based on the distribution information of the local feature points in it.
 \end{inparaenum}
 
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
 
-According to Observation~\ref{itm:observation_3}, one image may have several salient regions which constructed as multiple clusters of local features. LFSR solve this problem by using a very simple image segmentation to divide the image into several blocks based on the distribution of local features. This segmentation performs scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
+According to Observation~\ref{itm:observation_3}, one image may have several salient regions which constructed as multiple clusters of local features. LFSR solve this problem by using a simple image segmentation algorithm to divide the image into several blocks based on the distribution of local features. This segmentation performs scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
 
 \begin{itemize}
 
-  \item \textit{No local feature should be divided into multiple parts.} A local feature can be recognized as a feature point with a radius that equals its scale as shown in Figure~\ref{fig:segmentation}, and no segmentation should across a feature point.
+  \item \textit{No local feature could be divided into multiple parts.} In {\lfea}s, scale information is computed to guaranteed scale invariant. Therefore, a local feature point is used to represent a region with a radius that equals its scale as shown in Figure~\ref{fig:segmentation}. When the image is partitioned, no segmentation should across a feature point.
 
-  \item \textit{The cut should locate as near as possible to the center of image.} Each scan is performed from the image center in order to keep the cut near the image center.
+  \item \textit{The cut point should not locate far away form the center.} Each scan is performed from the region center. When the scan goes far, for example 1/2 of the image width, the scan should stop and declare that there is no valid cut in that scan. This constrain is based on a simple assumption that mostly objects locate in the center of image.
 
 \end{itemize}
 
-A typical segmentation is shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point for the image segmentation. If a scan exceeds a threshold distance to the image center, for example $1/4$ of the image with, the scan stops and announces that there exists no valid segmentation on that dimension. After scanning on both the x axis and the y axis, at most four image segmentations are found. If necessary, this kind of segmentation can be done recursively. But according to our evaluation, one run of segmentation is enough in most situations, for almost no image has more than two major objects.
+A typical segmentation is shown in Figure~\ref{fig:segmentation}. The segmentation is started from the center of each axis, e.g. the dot lines in the figure. When a cut-point satisfying the above two constraints is found, LFSR stops scanning and takes that cut-point as a valid image segmentation, e.g. the solid lines in the figure. After scanning on both the x axis and the y axis, at most four image regions are found in one segmentation.
+
+Then this kind of segmentation will be performed recursively on each image regions. And a recursive segmentation should stop when following situations are satisfied:
+
+\begin{itemize}
+
+  \item \textit{No valid segmentations are found any more.} When no valid segmentations are found in one region on both x-axis and y-axis, we should regard this region as a whole object and stop performing segmentation on it.
+
+  \item \textit{Too few feature points in the found region.} Some found regions may have no local feature or just one or two local features, like gray regions in Figure~\ref{fig:segmentation-2}. These regions will be marked as invalid, for they cannot hold one whole object, and no further computation will be performed on them.
+
+  \item \textit{The number of segmentations exceeds the limitation.} It's possible that the recursive segmentation becomes too deep if there exists many dispersive points in that region. And actually it makes no sense to perform segmentation on these points, since they cannot be regarded as valid objects individually.
+
+\end{itemize}
+
+According to our evaluation, in most cases one run of segmentation is just enough, for almost no image has more than two major objects. Thus, it's possible to simplify this processing by performing segmentation only once in realistic scenarios.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.5in]{images/fig-segmentation.eps}
-\caption{Segmentation by scanning all local features on the x axis. The line of cut point should not go across any feature point and locate as near the image center as possible.}
+\caption{Segmentation by scanning all local features on both the x-axis and y-axis. The scan start form the dot lines and stop on the solid lines.}
 \label{fig:segmentation}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{images/fig-segmentation-2.eps}
+\caption{Valid and invalid regions according after two runs of segmentations. White regions are valid and gray regions are invalid.}
+\label{fig:segmentation-2}
 \end{figure}
 
 \subsection{Local Feature Based Detection}
 \label{sec:algorithm_detection}
 
-As discussed in Section~\ref{sec:algorithm_overview}, a precise salient region detection is not necessary for local feature reduction. Thus, LFSR employs geometric meaning of local features to compute the approximate salient region.
+As discussed in Section~\ref{sec:algorithm_overview}, a precise salient region detection is not necessary for local feature reduction. Thus, LFSR employs geometric meaning of local features to compute the salient region.
 
 According to Observation~\ref{itm:observation_1}, the local features of one salient region locate near to each other while noises locating far away from them. To simplify this problem, LFSR regards the geometric center of feature points as the center of salient region. Thus, the region center can be calculated like this:
 

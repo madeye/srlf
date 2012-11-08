@@ -51,6 +51,10 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+\newcommand{\sys}{LFSR}
+
+\newcommand{\lfea} {local feature-based image feature extraction algorithm}
+
 \makeatletter
 \newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
 \makeatother
@@ -59,7 +63,7 @@
 \begin{document}
 
 %% TITLE
-\title{Local Feature Based Salient Region Detection}
+\title{{\sys}: A Local Feature Based Salient Region Detection Algorithm}
 
 %% AUTHOR
 \author{
@@ -74,33 +78,15 @@
 
 %% DOCUMENT BODY
 
-\begin{figure*}[!t]
-	\centering
-	\subfigure[Salient region has the densest local features.]{
-		\includegraphics[width=2.5in]{images/fig-observation1.eps}
-		\label{fig:observation_1}
-	}
-	\hfil
-	\subfigure[Several salient regions in one image.]{
-		\includegraphics[width=2.5in]{images/fig-observation2.eps}
-		\label{fig:observation_2}
-	}
-	\caption{Example images with local feature based salient regions}
-	\label{fig:observations}
-\end{figure*}
+
 
 \input{abstract}
 
 \input{introduction}
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=5.0in]{images/fig-overview.eps}
-\caption{An overview of Local Feature based Salient Region algorithm}
-\label{fig:overview}
-\end{figure*}
 
-\input{observation}
+
+\input{motivation}
 
 \input{algorithm}
 
@@ -110,7 +96,7 @@
 
 \input{conclusion}
 
-\input{acknowledgement}
+%\input{acknowledgement}
 
 %% REFERENCES
 {\small
