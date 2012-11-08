@@ -8,6 +8,21 @@
 	\label{fig:workflow}
 \end{figure}
 
+\begin{figure*}[!t]
+	\centering
+	\subfigure[Salient region has the densest local features.]{
+		\includegraphics[width=2.5in]{images/fig-observation1.eps}
+		\label{fig:observation_1}
+	}
+	\hfil
+	\subfigure[Several salient regions in one image.]{
+		\includegraphics[width=2.5in]{images/fig-observation2.eps}
+		\label{fig:observation_2}
+	}
+	\caption{Example images with local feature based salient regions}
+	\label{fig:observations}
+\end{figure*}
+
 \subsection{Motivation}
 
 Due to their high accuracy, local feature-based algorithms have been widely used in real-world applications.  As shown in Figure~\ref{fig:workflow}, they generally consist of two stages: detection stage and description stage.  An overview of their processing workflow is shown as follows:
@@ -40,21 +55,6 @@ SIFT & 719 & 1437 & 2723 & 1:3 \\\hline
 \end{table}
 
 As the data shown, no matter the processing time or the storage space is proportional to the amount of feature points in an image. Therefore, less feature points means  less processing time and less storage space. Salient region techniques, which picks up the visual attention parts from an image, can be used to reduced the amount of feature points through marking the features outside the region as unimportant and eliminating them. Although there have existed many mature salient region algorithms~\cite{cheng2011global,achanta2009frequency,itti1998model}, they are not designed to work with local features. However, prior salient region detection algorithms are independent on the process of local feature-based algorithms. Therefore,  combining them would involve additional overhead, which may degrade the final performance.
-
-\begin{figure*}[!t]
-	\centering
-	\subfigure[Salient region has the densest local features.]{
-		\includegraphics[width=2.5in]{images/fig-observation1.eps}
-		\label{fig:observation_1}
-	}
-	\hfil
-	\subfigure[Several salient regions in one image.]{
-		\includegraphics[width=2.5in]{images/fig-observation2.eps}
-		\label{fig:observation_2}
-	}
-	\caption{Example images with local feature based salient regions}
-	\label{fig:observations}
-\end{figure*}
 
 \subsection{Observation}
 \label{subsec:observation}
