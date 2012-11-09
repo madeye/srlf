@@ -6,20 +6,20 @@ In this section, we first present some comparisons on accuracy. Then, to show th
 \subsection{Experimental Comparison}
 \label{sec:evaluation_comparison}
 
-\begin{table*}[!t]
+\begin{table}[!t]
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
- & Precision & Recall & F score & Reduction Efficiency & Process Time(s) \\
+ & Precision & Recall & F1 & RE & Time(s) \\
 \hline\hline
 FTSR & 0.74 & 0.59 & 0.68 & 30\% & 2828 \\
 LFSR & 0.52 & 0.59 & 0.55 & 42\% & 3.2 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Comparison between FTSR and LFSR.}
+\caption{Comparison between FTSR and LFSR. RE refers to reduction efficiency of local features. Time refers to the processing time of each algorithm.}
 \label{tab:comparison}
-\end{table*}
+\end{table}
 
 As mentioned in Section~\ref{sec:introduction}, we target to design a algorithm for local feature reduction, and salient region detection is just suitable for that task. To achieve a good performance, we present LFSR instead of directly using any existed salient region algorithm. Although LFSR is only a approximate algorithm, we are still interested in evaluating its precision against others. Here we compare LFSR with a previous research named FTSR (Frequency-Tuned Salient Region) by Achanta et al.~\cite{achanta2009frequency}. FTSR is a state-of-the-art salient region algorithm with a C++ implementation which is easy to compare the performance. To work with local feature descriptor, FTSR here should perform segmentation on its saliency map before doing feature reduction. It means in our evaluation the process time of FTSR includes not only the saliency map generation but also the segmentation processing.
 
@@ -38,20 +38,22 @@ Furthermore, we also implement a whole image retrieval system for evaluation. Th
 
 The input for evaluation is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. Compared to the original local feature algorithm, LFSR helps to improve the local feature descriptor performance by about 1.6X. And by reducing local features, the whole image retrieval system gains a more than 2X speedup in both building and query phase.
 
+We also present the accuracy influence of introducing LFSR to our retrieval system in the column 5 of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method of Nist\'er et al.~\cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of LFSR enabled algorithms by of original ones. LFSR based algorithms show a small accuracy loss of about 7 percent. Considering the great speedup provided by LFSR, we regard this result as acceptable.
+
 \begin{table}
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-Time(s) & Descriptor & Building & Query \\
+ & DES & BLD & QRY & ACY \\
 \hline\hline
-SIFT & 0.54 & 0.33 & 1.65 \\
-SIFT-LFSR & 0.33 & 0.12 & 0.77 \\
+SIFT & 0.54s & 0.33s & 1.65s & - \\
+SIFT-LFSR & 0.33s & 0.12s & 0.77s & 93\% \\
 \hline\hline
-SURF & 0.15 & 0.06 & 0.54 \\
-SURF-LFSR & 0.09 & 0.03 & 0.34 \\
+SURF & 0.15s & 0.06s & 0.54s & - \\
+SURF-LFSR & 0.09s & 0.03s & 0.34s & 94\% \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Average time for computing each image. Descriptor refers to local feature descriptor time. Building refers to VOC-Tree building time. Query includes VOC-Tree query time and RANSAC time.}
+\caption{Comparison between original {\lfea} and LFSR enabled ones. DES refers to {\lfea} time. BLD refers to VOC-Tree building time. QRY includes VOC-Tree query time and RANSAC time. ACY refers to the accuracy of the LFSR enabled retrieval system compared to the original ones.}
 \label{tab:integration}
 \end{table}
