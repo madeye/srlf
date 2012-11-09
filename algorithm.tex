@@ -33,7 +33,7 @@ According to Observation~\ref{itm:observation_3}, one image may have several sal
 
   \item \textit{No local feature could be divided into multiple parts.} In {\lfea}s, scale information is computed to guaranteed scale invariant. Therefore, a local feature point is used to represent a region with a radius that equals its scale as shown in Figure~\ref{fig:segmentation}. When the image is partitioned, no segmentation should across a feature point.
 
-  \item \textit{The cut point should not locate far away form the center.} Each scan is performed from the region center. When the scan goes far, for example 1/2 of the image width, the scan should stop and declare that there is no valid cut in that scan. This constrain is based on a simple assumption that mostly objects locate in the center of image.
+  \item \textit{The cut point should not locate far away form the center.} Each scan is performed from the region center. When the scan goes far, for example 1/2 of the image width, the scan stops and declares that there is no valid cut in that scan. This constraint attends to keep segmentation balanced and avoid too large regions or too small regions.
 
 \end{itemize}
 
@@ -43,9 +43,9 @@ Then this kind of segmentation will be performed recursively on each image regio
 
 \begin{itemize}
 
-  \item \textit{No valid segmentations are found any more.} When no valid segmentations are found in one region on both x-axis and y-axis, we should regard this region as a whole object and stop performing segmentation on it.
+  \item \textit{No valid cuts are found.} When no valid cuts following the above two constraints are found, for example a scan exceeds its distance limit, on both x-axis and y-axis of a region, we should regard this region as a whole object and stop performing segmentation on it.
 
-  \item \textit{Too few feature points in the found region.} Some found regions may have no local feature or just one or two local features, like gray regions in Figure~\ref{fig:segmentation-2}. These regions will be marked as invalid, for they cannot hold one whole object, and no further computation will be performed on them.
+  \item \textit{Too few features exist in a region.} Some found regions may have no local feature or just one or two local features, like gray regions in Figure~\ref{fig:segmentation-2}. These regions will be marked as invalid, for they cannot hold one whole object, and no further computation will be performed on them.
 
   \item \textit{The number of segmentations exceeds the limitation.} It's possible that the recursive segmentation becomes too deep if there exists many dispersive points in that region. And actually it makes no sense to perform segmentation on these points, since they cannot be regarded as valid objects individually.
 
@@ -56,7 +56,7 @@ According to our evaluation, in most cases one run of segmentation is just enoug
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.5in]{images/fig-segmentation.eps}
-\caption{Segmentation by scanning all local features on both the x-axis and y-axis. The scan start form the dot lines and stop on the solid lines.}
+\caption{Segmentation by scanning all local features on both the x-axis and y-axis. The scan starts form the dot lines and stops on the solid lines.}
 \label{fig:segmentation}
 \end{figure}
 
@@ -80,7 +80,7 @@ C(x, y) = \sum_{i}^{N}\left({F}_{i}(x, y) \right)
 
 Where $C(x, y)$ means the geometric center of each local feature $F(x, y)$ in that image segmentation.
 
-After locating the center, LFSR build the final salient region by expending the region as rectangle with a particular length-width ratio. And the ratio can also be computed directly from the distribution of features:
+After locating the center, LFSR builds the final salient region by expending the region as rectangle with a particular width-length ratio. This ratio should be consistent with the distribution of local features, since local features always locate following the shape of target objects. Approximately, this ratio can be considered to equal to the ratio of dispersion degree on x-axis and y-axis. For example, the bigger dispersion degree of local features on x-axis is, the bigger width-length ratio we will get. To compute the ratio of feature dispersions, we can divide the standard deviation of local feature position on x-axis by on y-axis:
 
 {\begin{equation} \label{eq:ratio}
 Ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
@@ -90,4 +90,4 @@ Where $x_{i}$ and $y_{i}$ is a feature's position, while $x_{c}$ and $y_{c}$ is 
 
 Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, the processing result will provide several candidate regions. According to Observation \ref{itm:observation_3}, LFSR choose to eliminate regions with features fewer than a threshold $\theta$. In our evaluation, we pick up the candidate region with most local features and take $1/4$ of its local feature quantity as the threshold $\theta$.
 
-Overall, LFSR detects the salient region with one mean value, two standard deviation computations, and a few additional loops to expand the detected region. Since these computations are only performed on local features, the cost should be very slight when integrated with a local feature descriptor. Furthermore, we find that this simple approach also achieves an obvious performance advantage when compared to other precise salient region algorithms.
+Overall, LFSR detects the salient region with one mean value, two standard deviation, and a few additional loops to expand the detected region. Since these computations are only performed on local features, the cost should be very slight when integrated with a local feature descriptor. Furthermore, we find that this simple approach also achieves an obvious performance advantage when compared to other precise salient region algorithms.
