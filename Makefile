@@ -1,9 +1,10 @@
-# Makefile for LFSR paper.
+# Makefile for SRLF paper.
 # Copyright (c) 2012 Max Lv
+
 TEX = latex
 DVI2PDF = dvipdf
 BIBTEX = bibtex
-doc = lfsr
+doc = srlf
 source = $(doc).tex
 pdf = $(doc).pdf
 dvi = $(doc).dvi

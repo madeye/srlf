@@ -1,11 +1,11 @@
-%% lfsr.tex
+%% srlf.tex
 %% 2012/07/24
 %% by Max Lv
 
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
 %% CVPR
-\usepackage{cvpr}
+\usepackage{iccv}
 \usepackage{times}
 \usepackage{epsfig}
 \usepackage{amsmath}
@@ -15,13 +15,13 @@
 \usepackage{multirow}
 \usepackage{paralist}
 
-% \cvprfinalcopy % *** Uncomment this line for the final submission
+% \iccvfinalcopy % *** Uncomment this line for the final submission
 
-\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\iccvPaperID{****} % *** Enter the CVPR Paper ID here
 \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
 
 % Pages are numbered in submission mode, and unnumbered in camera-ready
-\ifcvprfinal\pagestyle{empty}\fi
+\ificcvfinal\pagestyle{empty}\fi
 
 %% CITATION PACKAGES
 \usepackage{cite}
@@ -51,7 +51,7 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
-\newcommand{\sys}{LFSR}
+\newcommand{\sys}{SRLF}
 
 \newcommand{\lfea} {local feature descriptor}
 
@@ -63,7 +63,7 @@
 \begin{document}
 
 %% TITLE
-\title{{\sys}: A Local Feature Based Salient Region Detection Algorithm}
+\title{{\sys}: Salient Region Conducted Local Feature Algorithm}
 
 %% AUTHOR
 \author{
@@ -97,7 +97,7 @@
 %% REFERENCES
 {\small
 \bibliographystyle{ieee}
-\bibliography{lfsr}
+\bibliography{srlf}
 }
 
 \end{document}
