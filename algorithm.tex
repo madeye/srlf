@@ -75,15 +75,15 @@ As discussed in Section~\ref{sec:algorithm_overview}, a precise salient region d
 According to Observation~\ref{itm:observation_1}, the local features of one salient region locate near to each other while noises locating far away from them. To simplify this problem, LFSR regards the geometric center of feature points as the center of salient region. Thus, the region center can be calculated like this:
 
 {\begin{equation} \label{eq:center}
-C(x, y) = \sum_{i}^{N}\left({F}_{i}(x, y) \right)
+\left({x}_{c},{y}_{c} \right) = \frac{\sum_{i}^{N}\left({x}_{i},{y}_{i} \right)}{N}
 \end{equation}}
 
-Where $C(x, y)$ means the geometric center of each local feature $F(x, y)$ in that image segmentation.
+Where $\left({x}_{c},{y}_{c} \right)$ means the geometric center of each local feature $\left({x}_{i},{y}_{i} \right)$ in that image segmentation.
 
 After locating the center, LFSR builds the final salient region by expending the region as rectangle with a particular width-length ratio. This ratio should be consistent with the distribution of local features, since local features always locate following the shape of target objects. Approximately, this ratio can be considered to equal to the ratio of dispersion degree on x-axis and y-axis. For example, the bigger dispersion degree of local features on x-axis is, the bigger width-length ratio we will get. To compute the ratio of feature dispersions, we can divide the standard deviation of local feature position on x-axis by on y-axis:
 
 {\begin{equation} \label{eq:ratio}
-Ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
+ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
 \end{equation}}
 
 Where $x_{i}$ and $y_{i}$ is a feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, LFSR grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features.
