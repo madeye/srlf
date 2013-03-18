@@ -15,8 +15,4 @@ To overcome this obstacle, we have done a comprehensive analysis on the relation
 
 However, a general purpose salient region detection algorithm does not meet our requirements in the scenario of boosting local feature algorithms' efficiency. Thus, we involve an approximate algorithm instead of the precise ones. This kind of salient region is also based on our observations in the previous analysis: With the knowledge of the geometric distribution of local features, salient regions can be figured out in a very efficient way. This approach has two remarkable advantages: no additional image features for salient region detection; totally integrated with local feature algorithm to compute the salient region efficiently. 
 
-%we present a algorithm named LFSR (Local Feature based Salient Region) to eliminate unimportant local features efficiently in this paper.  
-
-%To prove our approximate algorithm is precise enough for local feature reduction, we evaluate LFSR against a stat-of-the-art salient region algorithm~\cite{achanta2009frequency}. The result shows that our approach has a much better performance with compatible precision and recall. Furthermore, within a realistic image retrieval system, our evaluation shows that LFSR can help to improve the computation performance significantly.
-
 The rest of the paper is organized as follows. Section~\ref{sec:observation} presents the base motivation and observation for our algorithm. Section~\ref{sec:algorithm} discusses the detailed algorithm. Several evaluations are presented in Section~\ref{sec:evaluation}. We conclude the paper in Section~\ref{sec:conclusion}.
