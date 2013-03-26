@@ -10,10 +10,10 @@ In this section, we first present some comparisons on accuracy. Then, to show th
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
- & P & R & F1 & RE & SM(ms) & SG(ms) \\
+ & P & R & F1 & RE & SM(s) & SG(s) \\
 \hline\hline
-GBSR   & 0.81 & 0.86 & 0.83 & 39\% & 178 & 2086 \\
-{\sys} & 0.52 & 0.59 & 0.55 & 42\% & N/A & 3.2 \\
+GBSR   & 0.81 & 0.86 & 0.83 & 39\% & 0.178 & 0.208 \\
+{\sys} & 0.52 & 0.59 & 0.55 & 42\% & N/A & 0.003 \\
 \hline
 \end{tabular}
 \end{center}
@@ -34,11 +34,11 @@ To compare the efficiency of these two algorithms, we run {\sys} and GBSR both o
 
 {\sys} is designed to improve the performance of local feature descriptor. To evaluate whether {\sys} satisfies this design purpose, we integrate our algorithm into the OpenSIFT~\footnote{http://robwhess.github.com/opensift/} and OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region detection is carefully added between the detection stage and the description stage. It means {\sys} can reuse the computation results directly from the detection stage. After the reduction of {\sys}, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
 
-Furthermore, we also implement a whole image retrieval system for evaluation. The system first builds a VOC-Tree~\cite{nister-stewenius-cvpr-2006} by using SIFT or SURF feature vectors extracted from image datasets. Then, each incoming query image is transfered into feature vectors too and compared in that VOC-Tree. At last, the found top similar images would be reordered by using RANSAC~\cite{ransac1981}. To involve {\sys}, we just replace the original local feature descriptor with a {\sys} enabled version.
+Furthermore, we also implement a whole image retrieval system for evaluation. The system first builds a VOC-Tree~\cite{nister-stewenius-cvpr-2006} by using SIFT or SURF feature vectors extracted from image datasets. Then, each incoming query image is transfered into feature vectors too and compared in that VOC-Tree. At last, the found top similar images would be reordered by using RANSAC~\cite{ransac1981}. To involve {\sys}, we just replace the original local feature descriptor with a {\sys} enabled version. We also implement a GBSR integrated image retrieval system, which employ GBSR's precise salient region to conduct the local feature reduction.
 
-The input for evaluation is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. Compared to the original local feature algorithm, {\sys} helps to improve the local feature descriptor performance by about 1.6X. And by reducing local features, the whole image retrieval system gains a more than 2X speedup in both building and query phase.
+The input for evaluation is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. Compared to the original local feature algorithm, {\sys} helps to improve the local feature descriptor performance by about 1.6X. And by reducing local features, the whole image retrieval system gains a more than 2X speedup in both building and query phase. The GBSR version shows similar performance improvement due to a similar reduction efficiency as shown in the Section~\ref{sec:evaluation_comparison}.
 
-We also present the accuracy influence of introducing {\sys} to our retrieval system in the column 5 of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method of Nist\'er et al.~\cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of {\sys} enabled algorithms by of original ones. {\sys} based algorithms show a small accuracy loss of about 7 percent. Considering the great speedup provided by {\sys}, we regard this result as acceptable.
+We also present the accuracy influence of introducing {\sys} and GBSR to our retrieval system in the column 5 of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method of Nist\'er et al.~\cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of {\sys} and GBSR based algorithms by the score of original ones. {\sys} based algorithms show a small precision loss about 7 percent. GBSR based SURF algorithm shows a more obvious loss of 15\%, while SIFT-GBSR presents a similar result to SIFT-{\sys}.
 
 \begin{table}
 \begin{center}
@@ -46,14 +46,16 @@ We also present the accuracy influence of introducing {\sys} to our retrieval sy
 \hline
  & DES & BLD & QRY & ACY \\
 \hline\hline
-SIFT & 0.54s & 0.33s & 1.65s & - \\
-SIFT-{\sys} & 0.33s & 0.12s & 0.77s & 93\% \\
+SIFT & 0.43s & 0.50s & 1.5s & - \\
+SIFT-{\sys} & 0.27s & 0.19s & 0.72s & 93\% \\
+SIFT-GBSR & 0.22s & 0.11s & 0.50s & 85\% \\
 \hline\hline
-SURF & 0.15s & 0.06s & 0.54s & - \\
-SURF-{\sys} & 0.09s & 0.03s & 0.34s & 94\% \\
+SURF & 0.10s & 0.08s & 0.49s & - \\
+SURF-{\sys} & 0.07s & 0.04s & 0.31s & 94\% \\
+SURF-GBSR & 0.06s & 0.02s & 0.27s & 93\% \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Comparison between original {\lfea}s and {\sys} enabled ones. DES refers to {\lfea} time. BLD refers to VOC-Tree building time. QRY includes VOC-Tree query time and RANSAC time. ACY refers to the accuracy of the {\sys} enabled retrieval system compared to the original ones.}
+\caption{Comparison between original {\lfea}s, {\sys} based and GBSR based ones. DES refers to {\lfea} time. BLD refers to VOC-Tree building time. QRY includes VOC-Tree query time and RANSAC time. ACY refers to the accuracy of the {\sys} enabled retrieval system compared to the original ones.}
 \label{tab:integration}
 \end{table}
