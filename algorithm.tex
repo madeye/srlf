@@ -22,7 +22,7 @@ As shown in Figure \ref{fig:overview}, {\sys} works as a filter just between det
 \subsection{Local Feature Based Segmentation}
 \label{sec:algorithm_segmentation}
 
-According to Observation~\ref{itm:observation_3}, one image may have several salient regions which constructed as multiple clusters of local features. We solve this problem by using a simple image segmentation algorithm to divide the image into several blocks based on the distribution of local features. This segmentation performs scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
+According to Observation~\ref{itm:observation_2}, one image may have several salient regions which constructed as multiple clusters of local features. We solve this problem by using a simple image segmentation algorithm to divide the image into several blocks based on the distribution of local features. This segmentation performs scan operations on both the x axis and the y axis. In each scan, a cut-point may be found following these two constraints:
 
 \begin{itemize}
 
@@ -88,7 +88,7 @@ Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}
 \subsection{Local Feature Elimination}
 \label{sec:algorithm_elimation}
 
-With the knowledge of salient regions in a image, all features locate inside them are kept for further computation, and other features locate outside are just dropped. As a result, we get much fewer salient features in the local feature description stage, which can help to improve the whole algorithm's efficiency obviously.
+With the knowledge of salient regions in an image, all features locate inside are kept for further computation, and all other features outside are just dropped. As a result, we get much fewer salient features in the local feature description stage, which can help to improve the whole algorithm's efficiency obviously.
 
 \subsection{Cons and Pros}
 \label{sec:algorithm_summary}
