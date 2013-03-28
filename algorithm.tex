@@ -1,4 +1,4 @@
-\section{{\sys} Design}
+\section{{\sys} Algorithm}
 \label{sec:algorithm}
 
 \subsection{Overview}
@@ -81,9 +81,14 @@ After locating the center, we build the final salient region by expending the re
 ratio = \sqrt{\frac{\sum_{i}^{N}\left ( x_{i}-x_{c} \right )^{2}}{\sum_{i}^{N}\left ( y_{i}-y_{c} \right )^{2}}}
 \end{equation}}
 
-Where $x_{i}$ and $y_{i}$ is a feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, {\sys} grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features.
+Where $x_{i}$ and $y_{i}$ is a feature's position, while $x_{c}$ and $y_{c}$ is the center position computed by Equation~\ref{eq:center}. To get the final salient region, {\sys} grows the region size until the amount of local feature in it exceeds a desirable number, for example 50 percent of the original local features. As discussed in Observation \ref{itm:observation_3}, this threshold is important for providing a large enough salient region to avoid filtering local features on objects' edges and corners. In our evaluation, we find a ratio about 40\% is proper for most cases.
 
-Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, the processing result will provide several candidate regions. According to Observation \ref{itm:observation_3}, we choose to eliminate regions with features fewer than a threshold $\theta$. In our evaluation, we pick up the candidate region with most local features and take $1/4$ of its local feature quantity as the threshold $\theta$. 
+Combined with segmentation discussed in Section~\ref{sec:algorithm_segmentation}, the processing result will provide several candidate regions. According to Observation \ref{itm:observation_2}, we choose to pick up regions with most local features and regard them as final results.
+
+\subsection{Local Feature Elimination}
+\label{sec:algorithm_elimation}
+
+With the knowledge of salient regions in a image, all features locate inside them are kept for further computation, and other features locate outside are just dropped. As a result, we get much fewer salient features in the local feature description stage, which can help to improve the whole algorithm's efficiency obviously.
 
 \subsection{Cons and Pros}
 \label{sec:algorithm_summary}

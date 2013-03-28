@@ -60,12 +60,12 @@ To overcome these obstacles, we make a comprehensive analysis on the relation be
 
 \begin{description}
 	
-\item[Observation 1] \desclabel{itm:observation_1} \textit{Local features in salient regions are more important than others.} It means local features we truly care about locates in the salient regions, while noisy features or unimportant features are outside and keep a distance away from salient ones. As shown in Figure \ref{fig:observation_1}, local features in the salient region (green box) gather together and many obviously noises locate far away from that box. 
+\item[Observation 1] \desclabel{itm:observation_1} \textit{There exist much denser local features in a salient region.} It means local features we truly care about locates close to each other, while noisy features or unimportant features are outside and keep a distance away from them. As shown in Figure \ref{fig:observation_1}, local features in the salient region (green box) gather together and many obviously noises locate far away from that box. 
 
-\item[Observation 2] \desclabel{itm:observation_2} \textit{The region with dense local features is the preferred salient region.} Also from Figure \ref{fig:observation_1}, the density of feature points in green box is larger compared to that of points in the other two yellow boxes. 
+\item[Observation 2] \desclabel{itm:observation_2} \textit{There may exist several salient regions in an image.} In other words, there exists several clusters of local features in an image. For example, the photo in Figure \ref{fig:observation_2} contains two objects, a person and a stop sign, which shape two salient regions following two clusters of local features.
 
-\item[Observation 3] \desclabel{itm:observation_3} \textit{There may exist several salient regions in an image.} In other words, there exists several clusters of local features in an image. For example, the photo in Figure \ref{fig:observation_2} contains two objects, a person and a stop sign, which shape two salient regions following two clusters of local features.
+\item[Observation 3] \desclabel{itm:observation_3} \textit{Local features are close to boundary of salient region.} From both Figure \ref{fig:observation_1} and Figure \ref{fig:observation_2}, we can find that mostly local features are detected on objects' edges and corners, which are also the boundaries of typical salient regions. 
 
 \end{description}
 
-Observation~\ref{itm:observation_1} and \ref{itm:observation_2} indicate the possibility that we can detect salient regions directly from the distribution of local features. In addition, Observation~\ref{itm:observation_3} means it's necessary to deal with the situation of multiple salient regions with multiple clusters of local features in one image. Finally, this local feature based salient region will be used to conduct our local feature elimination.
+Observation~\ref{itm:observation_1} indicates that we can detect salient regions directly from the distribution of local features. In addition, Observation~\ref{itm:observation_2} means it's necessary to deal with the situation of multiple salient regions with multiple clusters of local features in one image. Finally, \ref{itm:observation_3} shows it's important to avoid eliminating local features on salient regions' boundaries by enlarging actual salient regions.
