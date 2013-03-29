@@ -23,7 +23,17 @@ GBSR   & 0.81 & 0.86 & 0.83 & 39\% & 0.18 & 2.08 \\
 
 As mentioned in Section~\ref{sec:introduction}, we target to design an algorithm for local feature reduction using salient region. To achieve good performance, an approximate salient region detection is involved. Although our approach cannot detect precise salient region, we are still interested in evaluating its precision against general purpose ones. Here we compare {\sys} with a previous research called GBSR (Global Contrast based Salient Region) by Cheng et al.~\cite{cheng2011global}. GBSR is a state-of-the-art salient region detection algorithm written in C++, which makes us easy to compare the computation efficiency with ours. To be used in feature elimination, we also perform GBSR's own segmentation approach to get the salient region boundary. It means in our evaluation the processing time of GBSR includes not only the saliency map detection but also the segmentation.
 
-Since we only focus on local features, our evaluation differs from regular salient region researches: the precision and recall are given according to the results of local feature reduction, not the precise salient region boundary. The evaluated dataset is provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public image database from Liu et at.~\cite{liu2011learning}. As input, we first generate local features for the whole database with OpenSURF~\cite{evans2010opensurf}. 
+The evaluated dataset is provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public image database from Liu et at.~\cite{liu2011learning}. Since we only focus on local features, our precision and recall evaluation differs from regular salient region researches. As input, we first generate both SURF and SIFT local features for the whole dataset. Then we use the ground truth (labeling regions provided by Achanta et al.), GBSR and {\sys} to conduct the local feature reduction. At last, the GBSR's and {/sys}'s precision and recall are calculated based on their reduction results, where local features locate inside the ground truth are considered as the truly salient features and others outside should be ignored and dropped. Thus, the precision and recall equations are like these:
+
+{\begin{equation} \label{eq:precision}
+Precision = \frac{{N}_{correct}}{{n}_{detected}}
+\end{equation}}
+
+{\begin{equation} \label{eq:recall}
+Recall = \frac{{N}_{correct}}{{N}_{true}}
+\end{equation}}
+
+Where ${N}_{correct}$ refers to the number of local features located in both the ground truth and the detected salient region. ${N}_{detected}$ in equation~\ref{eq:precision} refers to the number of all local features in the detected region, while ${N}_{true}$ in equation~\ref{eq:recall} is the number of truly salient features in the ground truth.
 
 As shown in the column 2, 3 and 4 of Table~\ref{tab:comparison}, {\sys} gets lower precision lower recall compared to GBSR. The reduction efficiency in the column 5 refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features. As discussed in Section~\ref{sec:algorithm}, some limitations in our salient region detection approach prevents processing images with high texture background or overlapping objects correctly. With a obvious precision gap compared to the state-of-the-art approach, the salient region used in {\sys} is not suitable for general purpose scenarios.
 
@@ -34,17 +44,17 @@ To compare the efficiency of these two algorithms, we run {\sys} and GBSR both o
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
- & Query Time & Accuracy \\
+\multicolumn{2}{|c|}{} & Query Time & Accuracy \\
 \hline\hline
-SIFT & 1.5s & - \\
-SIFT-{\sys} & 0.72s & 93\% \\
-SIFT-GBSR & 2.58s & 85\% \\
+\multirow{3}{*}{SURF} & Original & 0.49s & - \\
+& {\sys} &  0.31s & 94\% \\
+& GBSR & 2.35s & 93\% \\
 \hline\hline
-SURF & 0.49s & - \\
-SURF-{\sys} &  0.31s & 94\% \\
-SURF-GBSR & 2.35s & 93\% \\
+\multirow{3}{*}{SIFT} & Original & 1.5s & - \\
+& {\sys} & 0.72s & 93\% \\
+& GBSR & 2.58s & 85\% \\
 \hline
 \end{tabular}
 \end{center}
