@@ -46,17 +46,17 @@ The result in the column 6 of Table~\ref{tab:comparison} presents the efficiency
 
 \begin{table}[!ht]
 \begin{center}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
- & Query Time & Accuracy \\
+\multicolumn{2}{|c|}{} & Query Time & Accuracy \\
 \hline
-SIFT & 1.5s & - \\
-SIFT-{\sys} & 0.72s & 93\% \\
-SIFT-GBSR & 2.58s & 85\% \\
+\multirow{3}{*}{SURF} & Original & 0.49s & - \\
+& {\sys} &  0.31s & 94\% \\
+& GBSR & 2.35s & 93\% \\
 \hline
-SURF & 0.49s & - \\
-SURF-{\sys} &  0.31s & 94\% \\
-SURF-GBSR & 2.35s & 93\% \\
+\multirow{3}{*}{SIFT} & Original & 1.5s & - \\
+& {\sys} & 0.72s & 93\% \\
+& GBSR & 2.58s & 85\% \\
 \hline
 \end{tabular}
 \end{center}
@@ -75,5 +75,5 @@ SURF-GBSR & 2.35s & 93\% \\
 
 Table~\ref{tab:integration} shows the final performance results. By reducing local features, the {\sys} conducted image retrieval system gains more than 2X speedup for one image query. Although GBSR version has a better reduction efficiency as discussed in the Section~\ref{sec:evaluation_comparison}, the query time becomes worse due to GBSR's long processing time.
 
-We also present the accuracy influence by introducing {\sys} and GBSR to the retrieval system in the third column of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method in \cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of {\sys} and GBSR based algorithms by the score of the original ones. {\sys} based algorithms show a 7\% precision loss. In contrast, GBSR based algorithm shows a more obvious precision loss. When combined with SIFT, the performance loss is about 15\%. The major reason behind such a result is that GBSR is a precise silent region detection algorithm. When it used to reduce the feature points in a local feature-based retrieval system, only the points in its detection regions are remained. However, in {\lfea}s, many important points locate in the boundary of an object, which will have a great influence on the accuracy. To illustrate it clearer, we also give an example shown in Figure~\ref{fig:gbsr}. As the right column shown, many important feature points in the boundary are discarded after GBSR is used. 
+We also present the accuracy influence by introducing {\sys} and GBSR to the retrieval system in the third column of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method in \cite{nister2006scalable}. Then we get the accuracy by dividing the score of {\sys} and GBSR based algorithms by the score of the original ones. {\sys} based algorithms show a 7\% precision loss. In contrast, GBSR based algorithm shows a more obvious precision loss. When combined with SIFT, the performance loss is about 15\%. The major reason behind such a result is that GBSR is a precise silent region detection algorithm. When it used to reduce the feature points in a local feature-based retrieval system, only the points in its detection regions are remained. However, in {\lfea}s, many important points locate in the boundary of an object, which will have a great influence on the accuracy. To illustrate it clearer, we also give an example shown in Figure~\ref{fig:gbsr}. As the right column shown, many important feature points in the boundary are discarded after GBSR is used. 
 
