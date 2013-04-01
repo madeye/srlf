@@ -1,29 +1,16 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In this section, we first present some comparisons on accuracy. Then, to show the performance improvement of local feature descriptor by using {\sys}, an evaluation is also performed on {\sys} combined with SIFT and SURF, two most widely used {\lfea}s.
+In this section, we first give out some comparisons on accuracy. Then, to show the performance improvement of local feature descriptor by using {\sys}, an evaluation is also performed on {\sys} combined with SIFT and SURF, two most widely used {\lfea}s.
+
+These two evaluations are performed in two different environments. For salient region comparison, we run algorithms on a PC with one Intel Quad Core 2.4Ghz CPU. For image retrieval system integration, the {\sys} is integrated to an exist image retrieval system on a server with Intel Octa-Core i7 3.4Ghz CPU. We also employ two benchmarks for our evaluation. The first one is a dataset of 1000 $640\times480$images with labeling salient regions by Achanta et at.~\cite{achanta2009frequency}, which is used to evaluate the salient region accuracy. The second one is a much larger image database provided by Nist~\cite{nister-stewenius-cvpr-2006}, which consists of 10200 $640\times480$ images for benchmarking image retrieval system.
 
 \subsection{Experimental Comparison}
 \label{sec:evaluation_comparison}
 
-\begin{table}[!t]
-\begin{center}
-\begin{tabular}{|l|c|c|c|c|c|c|}
-\hline
- & P & R & F1 & RE & SM(s) & SG(s) \\
-\hline\hline
-GBSR   & 0.81 & 0.86 & 0.83 & 39\% & 0.18 & 2.08 \\
-{\sys} & 0.52 & 0.59 & 0.55 & 42\% & N/A & 0.003 \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Comparison between GBSR and {\sys} in precision (P), recall (R), F1 score, reduction efficiency (RE), saliency map (SM) and segmentation (SG) processing time in milliseconds.}
-\label{tab:comparison}
-\end{table}
+The major motivation of this paper is to design an algorithm for local feature reduction using salient region. To achieve this goal, an approximate salient region detection algorithm is designed. Although our approach cannot detect precise salient region, we are still interested in evaluating its precision against general purpose ones. Here we compare {\sys} with GBSR (Global Contrast based Salient Region)~\cite{cheng2011global}. GBSR is a state-of-the-art salient region detection algorithm, which can achieve the best precision and recall rate compared with the other salient region algorithms. Moreover, it is written in C++, which makes us easy to compare the computation efficiency with ours. The processing time of GBSR includes two parts: the saliency map detection and its segmentation.
 
-As mentioned in Section~\ref{sec:introduction}, we target to design an algorithm for local feature reduction using salient region. To achieve good performance, an approximate salient region detection is involved. Although our approach cannot detect precise salient region, we are still interested in evaluating its precision against general purpose ones. Here we compare {\sys} with a previous research called GBSR (Global Contrast based Salient Region) by Cheng et al.~\cite{cheng2011global}. GBSR is a state-of-the-art salient region detection algorithm written in C++, which makes us easy to compare the computation efficiency with ours. To be used in feature elimination, we also perform GBSR's own segmentation approach to get the salient region boundary. It means in our evaluation the processing time of GBSR includes not only the saliency map detection but also the segmentation.
-
-The evaluated dataset is provided by Achanta et at.~\cite{achanta2009frequency}, which is a subset of the public image database from Liu et at.~\cite{liu2011learning}. Since we only focus on local features, our precision and recall evaluation differs from regular salient region researches. As input, we first generate both SURF and SIFT local features for the whole dataset. Then we use the ground truth (labeling regions provided by Achanta et al.), GBSR and {\sys} to conduct the local feature reduction. At last, the GBSR's and {/sys}'s precision and recall are calculated based on their reduction results, where local features locate inside the ground truth are considered as the truly salient features and others outside should be ignored and dropped. Thus, the precision and recall equations are like these:
+Since we only focus on local features, our precision and recall evaluation differs from regular salient region researches. As input, we first generate both SURF and SIFT local features for the whole dataset. Then we collect the feature points in the salient regions calculated by the ground truth (labeling regions also by Achanta et al.), GBSR and {\sys}. At last, the GBSR's and {\sys}'s precision and recall are calculated based on their results compared with that of the ground truth. In other words, only the local features computed by the ground truth are considered as the truly salient features and the others are false features. Thus, the precision and recall equations are defined as follows.
 
 {\begin{equation} \label{eq:precision}
 Precision = \frac{{N}_{correct}}{{n}_{detected}}
@@ -33,28 +20,43 @@ Precision = \frac{{N}_{correct}}{{n}_{detected}}
 Recall = \frac{{N}_{correct}}{{N}_{true}}
 \end{equation}}
 
-Where ${N}_{correct}$ refers to the number of local features located in both the ground truth and the detected salient region. ${N}_{detected}$ in equation~\ref{eq:precision} refers to the number of all local features in the detected region, while ${N}_{true}$ in equation~\ref{eq:recall} is the number of truly salient features in the ground truth.
+Where ${N}_{correct}$ refers to the number of local features located in both the ground truth and GBSR or {\sys}. ${N}_{detected}$ in equation~\ref{eq:precision} refers to the total number of local features detected by GBSR or {\sys}, while ${N}_{true}$ in equation~\ref{eq:recall} is the number of truly salient features in the ground truth.
 
-As shown in the column 2, 3 and 4 of Table~\ref{tab:comparison}, {\sys} gets lower precision lower recall compared to GBSR. The reduction efficiency in the column 5 refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features. As discussed in Section~\ref{sec:algorithm}, some limitations in our salient region detection approach prevents processing images with high texture background or overlapping objects correctly. With a obvious precision gap compared to the state-of-the-art approach, the salient region used in {\sys} is not suitable for general purpose scenarios.
+\begin{table}[!ht]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+ & P & R & RE & SM(ms) & SG(ms) \\
+\hline
+GBSR   & 0.81 & 0.86 & 39\% &180 & 2080 \\
+{\sys} & 0.52 & 0.59  & 42\% & N/A & 3 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Comparison between GBSR and {\sys} in precision (P), recall (R), reduction efficiency, saliency map (SM) and segmentation (SG) processing time in milliseconds.}
+\label{tab:comparison}
+\end{table}
 
-To compare the efficiency of these two algorithms, we run {\sys} and GBSR both on a PC with one Intel Quad Core 2.4Ghz CPU and 4GB memory. The result in the column 6 of Table~\ref{tab:comparison} shows that the well optimized GBSR costs average 2086 milliseconds to get the final salient region for one image, while {\sys} only costs 3.2 milliseconds. Even only counting the time for saliency map detection, GBSR still needs average 178 milliseconds. The performance result of {\sys} is very impressive but not surprising, because the computation of {\sys} is really simple and straightforward.
+The comparison result is presented in Table~\ref{tab:comparison}. As shown in the column 2, 3 and 4, {\sys} gets lower precision rate and lower recall rate compared to GBSR. The major reason is that our algorithm is an approximate design, which focuses on fast processing speed and accurate retrieval instead of precise boundaries of salient regions. The reduction efficiency in the column 5 refers to the proportion of the left local features after a reduction. The results shows that both of them can help to eliminate more than half of the original features. GBSR achieves a higher reduction rate due to its precise boundary detection.
 
-\subsection{Local Feature Descriptor Integration}
+The result in the column 6 of Table~\ref{tab:comparison} presents the efficiency comparison, It shows that the well optimized GBSR costs average 2086 milliseconds to get the final salient region for an image, while {\sys} only costs 3.2 milliseconds. Even only counting the time for saliency map detection, GBSR still needs average 178 milliseconds. The performance result of {\sys} is very impressive but not surprising, because the computation of {\sys} is really simple and straightforward.
+
+\subsection{Combination into Retrieval Systems}
 \label{sec:evaluation_integration}
 
-\begin{table}
+\begin{table}[!ht]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|}
 \hline
-\multicolumn{2}{|c|}{} & Query Time & Accuracy \\
-\hline\hline
-\multirow{3}{*}{SURF} & Original & 0.49s & - \\
-& {\sys} &  0.31s & 94\% \\
-& GBSR & 2.35s & 93\% \\
-\hline\hline
-\multirow{3}{*}{SIFT} & Original & 1.5s & - \\
-& {\sys} & 0.72s & 93\% \\
-& GBSR & 2.58s & 85\% \\
+ & Query Time & Accuracy \\
+\hline
+SIFT & 1.5s & - \\
+SIFT-{\sys} & 0.72s & 93\% \\
+SIFT-GBSR & 2.58s & 85\% \\
+\hline
+SURF & 0.49s & - \\
+SURF-{\sys} &  0.31s & 94\% \\
+SURF-GBSR & 2.35s & 93\% \\
 \hline
 \end{tabular}
 \end{center}
@@ -62,18 +64,16 @@ To compare the efficiency of these two algorithms, we run {\sys} and GBSR both o
 \label{tab:integration}
 \end{table}
 
-\begin{figure*}[!t]
+\begin{figure*}[!ht]
 \centering
-\includegraphics[width=5.0in]{images/fig-gbsr.eps}
+\includegraphics[width=4.5in]{images/fig-gbsr.eps}
 \caption{Example feature reduction results conducted by GBSR. From left to right, the first column lists original images, the second column presents binary masks detected by GBSR, and the third column are the local feature reduction result conducted by GBSR, where green points are salient features and red points are filtered ones.}
 \label{fig:gbsr}
 \end{figure*}
 
-{\sys} is designed to improve the performance of local feature descriptor. To evaluate whether {\sys} satisfies this design purpose, we integrate our algorithm into the OpenSIFT~\footnote{http://robwhess.github.com/opensift/} and OpenSURF~\footnote{http://www.chrisevansdev.com/computer-vision-opensurf.html} to see the actual effects. The salient region detection is carefully added between the detection stage and the description stage. It means {\sys} can reuse the computation results directly from the detection stage. After the reduction of {\sys}, the computation of the description stage should be much smaller, since it's only related to the amount of local features.
+{\sys} is designed to improve the performance of {\lfea}s. To verify whether {\sys} satisfies this design purpose, we also evaluate the retrieval accuracy of {\sys} and GBSR. We implement a whole image retrieval system for evaluation. The system first builds a VOC-Tree~\cite{nister-stewenius-cvpr-2006} by using SIFT or SURF feature vectors extracted from image datasets. Then, each incoming query image is transferred into feature vectors too and retrieved in that VOC-Tree. At last, the found top similar images would be reordered by using RANSAC~\cite{ransac1981}. To involve {\sys}, we just replace the original local feature descriptor with a {\sys} enabled version. We also implement a GBSR integrated image retrieval system, which employs GBSR's precise salient region to conduct the local feature reduction.
 
-Furthermore, we also implement a whole image retrieval system for evaluation. The system first builds a VOC-Tree~\cite{nister-stewenius-cvpr-2006} by using SIFT or SURF feature vectors extracted from image datasets. Then, each incoming query image is transfered into feature vectors too and compared in that VOC-Tree. At last, the found top similar images would be reordered by using RANSAC~\cite{ransac1981}. To involve {\sys}, we just replace the original local feature descriptor with a {\sys} enabled version. We also implement a GBSR integrated image retrieval system, which employ GBSR's precise salient region to conduct the local feature reduction.
+Table~\ref{tab:integration} shows the final performance results. By reducing local features, the {\sys} conducted image retrieval system gains more than 2X speedup for one image query. Although GBSR version has a better reduction efficiency as discussed in the Section~\ref{sec:evaluation_comparison}, the query time becomes worse due to GBSR's long processing time.
 
-The input for evaluation is an image retrial dataset by Nist\'er et al.~\cite{nister-stewenius-cvpr-2006} with 10200 VGA ($640\times480$ pixels) photos. And the whole experiment is performed on a server with a Intel Quad Core i7 3.4Ghz CPU and 4GB RAM. Table~\ref{tab:integration} shows the final performance results. By reducing local features, the {\sys} conducted image retrieval system gains a more than 2X speedup for one image query. Although GBSR version has a better reduction efficiency as discussed in the Section~\ref{sec:evaluation_comparison}, the query time becomes worse due to GBSR's long processing time.
-
-We also present the accuracy influence by introducing {\sys} and GBSR to our retrieval system in the column 5 of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method of Nist\'er et al.~\cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of {\sys} and GBSR based algorithms by the score of original ones. {\sys} based algorithms show a small precision loss about 7 percent. GBSR conducted SIFT algorithm shows a more obvious precision loss of 15\%, while GBSR conducted SURF presents a similar result to {\sys}. This result shows that a precise salient region boundary can not provide accuracy benefit for our local feature reduction task, since many local features locate just on objects' corners and edges that would be excluded by general purpose salient region algorithm like GBSR, as shown in Figure~\ref{fig:gbsr}. On the other side, our approximate approach with a much larger boundary becomes more suitable for the image retrieval application.
+We also present the accuracy influence by introducing {\sys} and GBSR to the retrieval system in the third column of Table~\ref{tab:integration}. Here, the retrieval results of different algorithms are scored following the method in \cite{nister-stewenius-cvpr-2006}. Then we get the accuracy by dividing the score of {\sys} and GBSR based algorithms by the score of the original ones. {\sys} based algorithms show a 7\% precision loss. In contrast, GBSR based algorithm shows a more obvious precision loss. When combined with SIFT, the performance loss is about 15\%. The major reason behind such a result is that GBSR is a precise silent region detection algorithm. When it used to reduce the feature points in a local feature-based retrieval system, only the points in its detection regions are remained. However, in {\lfea}s, many important points locate in the boundary of an object, which will have a great influence on the accuracy. To illustrate it clearer, we also give an example shown in Figure~\ref{fig:gbsr}. As the right column shown, many important feature points in the boundary are discarded after GBSR is used. 
 

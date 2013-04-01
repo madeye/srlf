@@ -15,9 +15,6 @@
 \usepackage{multirow}
 \usepackage{paralist}
 
-% Keep last page balanced
-\usepackage{flushend}
-
 % \iccvfinalcopy % *** Uncomment this line for the final submission
 
 \def\iccvPaperID{109} % *** Enter the ICCV Paper ID here
@@ -45,6 +42,9 @@
 % FIX FOR SPANNING
 \usepackage{stfloats}
 
+% Balance LAST PAGE
+\usepackage{flushend}
+
 % description list
 \newcounter{desccount}
 \newcommand{\desclabel}[1]{%
@@ -61,6 +61,32 @@
 \makeatletter
 \newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
 \makeatother
+
+
+\usepackage{times}
+\usepackage[small,it]{caption}
+\DeclareCaptionType{copyrightbox}
+
+\setlength{\abovecaptionskip}{-1pt}
+\setlength{\belowcaptionskip}{-1pt}
+%\setlength{\textfloatsep}{2pt}
+\setlength{\floatsep}{2pt}
+\setlength{\intextsep}{4pt}
+
+% save space for itemsize
+\newcommand{\squishlist}{
+ \begin{list}{$\bullet$}
+  { \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+     \setlength{\topsep}{1pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{1.5em}
+     \setlength{\labelwidth}{1em}
+     \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+  \end{list}  }
+
 
 %% DOCUMENT
 \begin{document}

@@ -1,4 +1,6 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this paper, we present a Salient Region conducted Local Feature algorithm. With computing directly on local image features, {\sys} takes advantage of an approximate salient regions approach to perform local feature reduction. According to our evaluation, {\sys} can help to improve the performance of SURF descriptor with a 1.6X speedup. Furthermore, when used in a realistic image retrieval system, our algorithm improve the query performance more than 2 times. 
+In this paper, we present a Salient Region conducted Local Feature algorithm. With computing directly on local image features, {\sys} takes advantage of an approximate salient regions approach to perform local feature reduction. According to our evaluation, {\sys} can help to improves the performance of SURF descriptor with a 1.6X speedup. Furthermore, when used in a realistic image retrieval system, our algorithm improve the query performance more than 2 times. 
+
+To achieve the efficiency goal, an approximate approach is applied in our design. This approach cannot handle images with high texture background very well. For example, in the image with a background of grass and leaves, noisy local features around the concerned objects will also be detected as salient, which would influence our salient region detection. In our future work, we will try to make a better trade-off between accuracy and processing speed.
